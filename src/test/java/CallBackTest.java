@@ -1,10 +1,6 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.conditions.CssClass;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.*;
-import javax.swing.text.html.CSS;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -18,7 +14,7 @@ public class CallBackTest {
         //загружаем страницу
         open ("http://localhost:9999");
        //ищем эелементы
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         //взаимодействуем с элементами
         form.$("[data-test-id=name] input").setValue("Василий Мамин-Сибиряк");
         form.$("[data-test-id=phone] input").setValue("+79270000000");
@@ -31,9 +27,9 @@ public class CallBackTest {
     @Test
     void shouldntPostName() {
         open ("http://localhost:9999");
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         form.$("[data-test-id=name] input")
-                .setValue("Василий Мамин-Сибирёк");
+                .setValue("Vasiliy Maming-Sibiryak");
         form.$("[data-test-id=phone] input").setValue("+79270000000");
         form.$("[data-test-id=agreement]").click();
         form.$(".button").click();
@@ -44,7 +40,7 @@ public class CallBackTest {
     @Test
     void shouldntPostEmptyName (){
         open ("http://localhost:9999");
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         form.$("[data-test-id=name] input")
                 .setValue(" ");
         form.$("[data-test-id=phone] input").setValue("+79270000000");
@@ -58,7 +54,7 @@ public class CallBackTest {
     @Test
     void shouldntPostPhone() {
         open ("http://localhost:9999");
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         form.$("[data-test-id=name] input")
                 .setValue("Василий Мамин-Сибиряк");
         form.$("[data-test-id=phone] input").setValue("79270000000");
@@ -72,7 +68,7 @@ public class CallBackTest {
     @Test
     void shouldntPostEmptyPhone () {
         open("http://localhost:9999");
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         form.$("[data-test-id=name] input")
                 .setValue("Василий Мамин-Сибиряк");
         form.$("[data-test-id=phone] input").setValue("");
@@ -86,14 +82,13 @@ public class CallBackTest {
     @Test
     void shouldntPostEmptyAgreement (){
         open ("http://localhost:9999");
-        SelenideElement form = $("[action=\"/\"]");
+        SelenideElement form = $("form");
         form.$("[data-test-id=name] input")
                 .setValue("Василий Мамин-Сибиряк");
         form.$("[data-test-id=phone] input").setValue("+79270000000");
-       // form.$("[data-test-id=agreement]").click();
         form.$(".button").click();
-        form.$("[data-test-id=agreement].input_invalid .checkbox__text")
-                .shouldHave(cssValue ("color", "rgba(255, 92, 92, 1)"));
+        form.$("[data-test-id=agreement].input_invalid")
+                .shouldHave(visible);
 
     }
 }
